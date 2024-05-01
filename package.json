@@ -1,30 +1,22 @@
 {
   "name": "food-explorer-backend",
   "version": "1.0.0",
-  "description": "Explorer - Final challenge",
-  "main": "api/server.js",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "test": "jest --watch"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tsc": "tsc",
+    "dev": "tsx watch api/src/server.ts"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/DavidFerreiraa/food-explorer-backend.git"
-  },
-  "keywords": [
-    "node",
-    "javascript",
-    "prisma",
-    "git",
-    "github",
-    "web-app"
-  ],
-  "author": "David Ferreira Lima",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/DavidFerreiraa/food-explorer-backend/issues"
-  },
-  "homepage": "https://github.com/DavidFerreiraa/food-explorer-backend#readme",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "devDependencies": {
-    "jest": "^29.7.0"
+    "@types/node": "^20.12.7",
+    "tsx": "^4.7.3",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "fastify": "^4.26.2"
   }
 }
