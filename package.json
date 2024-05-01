@@ -1,0 +1,30 @@
+{
+  "name": "food-explorer-backend",
+  "version": "1.0.0",
+  "description": "Explorer - Final challenge",
+  "main": "api/server.js",
+  "scripts": {
+    "test": "jest --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DavidFerreiraa/food-explorer-backend.git"
+  },
+  "keywords": [
+    "node",
+    "javascript",
+    "prisma",
+    "git",
+    "github",
+    "web-app"
+  ],
+  "author": "David Ferreira Lima",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DavidFerreiraa/food-explorer-backend/issues"
+  },
+  "homepage": "https://github.com/DavidFerreiraa/food-explorer-backend#readme",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
