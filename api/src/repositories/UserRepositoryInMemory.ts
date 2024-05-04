@@ -5,7 +5,7 @@ export class UserRepositoryInMemory {
     
     async create({ name, email, password } : Omit<IUser, "id">) : Promise<IUser> { 
         const user: IUser = {
-            id: Math.floor(Math.random() * 1000) + 1,
+            id: String(Math.floor(Math.random() * 1000) + 1),
             email,
             name, 
             password
@@ -20,7 +20,7 @@ export class UserRepositoryInMemory {
         return this.users.find(user => user.email === email);
     }
 
-    async findById(id: number) : Promise<IUser | undefined> {
+    async findById(id: string) : Promise<IUser | undefined> {
         return this.users.find(user => user.id === id);
     }
 }
