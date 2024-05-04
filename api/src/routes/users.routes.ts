@@ -1,9 +1,8 @@
 import { FastifyInstance } from "fastify";
-import { createUserBody } from "../../utils/ZodTemplates";
+import { UserController } from "../controllers/UsersController";
 
 export async function usersRoutes(fastify: FastifyInstance) {
-    fastify.post("/users", async (request, reply) => {
-        const {name, email, password} = createUserBody.parse(request);
-        
-    })
+    const userController = new UserController();
+
+    fastify.post("/users", async (request, reply) => await userController.create(request, reply));
 }
