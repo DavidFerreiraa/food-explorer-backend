@@ -6,9 +6,12 @@
   "babel": "./babel.config.js",
   "type": "module",
   "scripts": {
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test": "node --env-file=.env --experimental-vm-modules node_modules/jest/bin/jest.js",
     "tsc": "tsc",
     "dev": "tsx watch api/src/server.ts"
+  },
+  "prisma": {
+    "seed": "tsx api/src/prisma/seed.ts"
   },
   "keywords": [],
   "author": "",
@@ -32,6 +35,8 @@
     "@prisma/client": "^5.13.0",
     "babel-jest": "^29.7.0",
     "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.5",
+    "email-validator": "^2.0.4",
     "fastify": "^4.26.2",
     "ts-node": "^10.9.2",
     "zod": "^3.23.5"
