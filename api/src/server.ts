@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import Fastify from 'fastify';
 import { z } from 'zod';
 import { AppError } from '../utils/AppError';
