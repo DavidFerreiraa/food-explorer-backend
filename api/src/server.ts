@@ -2,6 +2,7 @@ import 'dotenv/config';
 import Fastify from 'fastify';
 import { AppError } from '../utils/AppError';
 import { usersRoutes } from './routes/users.routes';
+import { ZodError } from 'zod';
 
 const fastify = Fastify({
     logger: true
@@ -9,13 +10,17 @@ const fastify = Fastify({
 
 export async function start() {
 
-    await fastify.register(usersRoutes);
-
     fastify.setErrorHandler((error, request, reply) => {
         if (error instanceof AppError) {
             return reply.code(error.statusCode).send({
                 type: "App error",
                 message: error.message
+            })
+        } else if (error instanceof ZodError) {
+            return reply.code(400).send({
+                type: "Bad request",
+                message: "A bad request error was returned",
+                details: error.issues
             })
         } else {
             console.log(error);
@@ -26,6 +31,8 @@ export async function start() {
             })
         }
     })
+    
+    await fastify.register(usersRoutes);
 
     await fastify.listen({ port: 3333})
 }

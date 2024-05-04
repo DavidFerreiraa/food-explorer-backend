@@ -7,7 +7,7 @@ import { ZodError } from "zod";
 
 export class UserController {
     async create(request: FastifyRequest, reply: FastifyReply) {
-        try {
+        // try {
             const { name, email, password } = createUserBody.parse(request.body);
 
             const userRepository = new UserRepository();
@@ -17,14 +17,14 @@ export class UserController {
     
             return reply.status(201).send();
 
-        } catch (error) {
-            if (error instanceof ZodError) {
-                error.issues.map(issue => {
-                    throw new AppError({message: issue.message, statusCode: 409})
-                })
-            }
-        }
-
-        return reply.status(500).send();
+        // } catch (error) {
+        //     if (error instanceof ZodError) {
+        //         error.issues.map(issue => {
+        //             throw new AppError({message: issue.message, statusCode: 409})
+        //         })
+        //     } else if (error instanceof AppError) {
+        //         return reply.code(error.statusCode).send(error);
+        //     }
+        // }
     }
 }
