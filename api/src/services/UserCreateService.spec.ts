@@ -4,7 +4,6 @@ import { UserRepository } from "../repositories/UserRepository";
 import { UserCreateService } from "./UserCreateService";
 
 describe("USER CREATE SERVICE", () => {
-    console.log(process.env)
     let userRepository: UserRepository;
     let userCreateService: UserCreateService;
 
