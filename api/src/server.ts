@@ -4,6 +4,7 @@ import { AppError } from '../utils/AppError';
 import { usersRoutes } from './routes/users.routes';
 import { ZodError } from 'zod';
 import { fastifyCookie } from '@fastify/cookie';
+import { sessionsRoutes } from './routes/sessions.routes';
 
 const fastify = Fastify({
     logger: true
@@ -35,6 +36,7 @@ export async function start() {
     fastify.register(fastifyCookie)
 
     await fastify.register(usersRoutes);
+    await fastify.register(sessionsRoutes);
 
     await fastify.listen({ port: 3333})
 }

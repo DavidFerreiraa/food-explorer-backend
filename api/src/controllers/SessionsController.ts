@@ -3,9 +3,9 @@ import { createSessionBody } from "../../utils/ZodTemplates";
 import { UserRepository } from "../repositories/UserRepository";
 import { SessionsCreateService } from "../services/SessionsCreateService";
 
-export class SessionController {
+export class SessionsController {
     async create(request: FastifyRequest, reply: FastifyReply) {
-        const { email, password } = createSessionBody.parse(request);
+        const { email, password } = createSessionBody.parse(request.body);
 
         const userRepository = new UserRepository();
         const sessionsCreateService = new SessionsCreateService(userRepository);

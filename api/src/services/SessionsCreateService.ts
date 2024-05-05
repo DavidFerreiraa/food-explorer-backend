@@ -3,7 +3,7 @@ import { AppError } from "../../utils/AppError";
 import { createSessionBody } from "../../utils/ZodTemplates";
 import { UserRepository } from "../repositories/UserRepository";
 import { auth } from "../config/auth";
-import { sign } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import { User } from "@prisma/client";
 
 interface ISessionCreateService {
@@ -33,7 +33,7 @@ export class SessionsCreateService {
 
         const { secret, expiresIn } = auth.jwt;
 
-        const jwtToken = sign({role: user.Role}, secret, {
+        const jwtToken = jwt.sign({role: user.Role}, secret, {
             subject: String(user.id),
             expiresIn
         })
