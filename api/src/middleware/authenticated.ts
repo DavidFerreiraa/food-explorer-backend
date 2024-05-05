@@ -39,7 +39,7 @@ export function authenticated(request: FastifyRequest, reply: FastifyReply, done
             role
         }
 
-        done();
+        return done();
     } catch (error) {
         throw new AppError({ message: "Invalid JWT token", statusCode: 401})
     }
