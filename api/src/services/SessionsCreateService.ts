@@ -34,7 +34,7 @@ export class SessionsCreateService {
         const { secret, expiresIn } = auth.jwt;
 
         const jwtToken = jwt.sign({role: user.Role}, secret, {
-            subject: String(user.id),
+            subject: user.id,
             expiresIn
         })
 

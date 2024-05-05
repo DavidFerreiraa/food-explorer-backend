@@ -34,6 +34,7 @@
   },
   "dependencies": {
     "@fastify/cookie": "^9.3.1",
+    "@fastify/cors": "^9.0.1",
     "@prisma/client": "^5.13.0",
     "babel-jest": "^29.7.0",
     "bcrypt": "^5.1.1",

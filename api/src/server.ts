@@ -5,12 +5,19 @@ import { usersRoutes } from './routes/users.routes';
 import { ZodError } from 'zod';
 import { fastifyCookie } from '@fastify/cookie';
 import { sessionsRoutes } from './routes/sessions.routes';
+import cors from '@fastify/cors';
+import { authenticated } from './middleware/authenticated';
 
 const fastify = Fastify({
     logger: true
 })
 
 export async function start() {
+    fastify.register(cors, {
+        credentials: true,
+        origin: ["http://127.0.0.1:3333", "http://localhost:3333"]
+    })
+
     fastify.setErrorHandler((error, request, reply) => {
         if (error instanceof AppError) {
             return reply.code(error.statusCode).send({
