@@ -4,7 +4,7 @@ import { ProductsRepository } from "../repositories/ProductsRepository";
 import { ProductCreateService } from "../services/ProductsCreateService";
 import { AppError } from "../../utils/AppError";
 
-export class UserController {
+export class ProductsController {
     async create(request: FastifyRequest, reply: FastifyReply) {
         const { title, description, price, imageUrl, categoryId, creatorId } = createProductBody.parse(request.body);
 
