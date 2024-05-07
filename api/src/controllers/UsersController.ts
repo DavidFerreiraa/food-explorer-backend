@@ -2,8 +2,6 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import { createUserBody } from "../../utils/ZodTemplates";
 import { UserRepository } from "../repositories/UserRepository";
 import { UserCreateService } from "../services/UserCreateService";
-import { AppError } from "../../utils/AppError";
-import { ZodError } from "zod";
 
 export class UserController {
     async create(request: FastifyRequest, reply: FastifyReply) {
