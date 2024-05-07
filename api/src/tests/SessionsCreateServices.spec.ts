@@ -1,10 +1,9 @@
 import { AppError } from "../../utils/AppError";
 import { createSessionBody } from "../../utils/ZodTemplates";
 import { UserRepository } from "../repositories/UserRepository";
-import { SessionsCreateService } from "./SessionsCreateService";
+import { SessionsCreateService } from "../services/SessionsCreateService";
 
 describe("SESSIONS CREATE SERVICE", () => {
-    console.log(process.env)
     let userRepository: UserRepository;
     let sessionsCreateService: SessionsCreateService;
 

@@ -15,10 +15,10 @@ export class CategoryCreateService {
         const categoryExists = await this.categoryRepository.findByName(name);
 
         if (categoryExists) {
-            throw new AppError({message: "An error ocurred in the category creation", statusCode: 400})
+            throw new AppError({message: "This category already exists", statusCode: 409});
         }
 
-        const createdCategory = await this.categoryRepository.create({ name })
+        const createdCategory = await this.categoryRepository.create({ name });
 
         return createdCategory;
     }

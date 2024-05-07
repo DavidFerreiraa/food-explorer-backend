@@ -7,7 +7,7 @@ const config = {
   collectCoverage: false,
   coverageProvider: "v8",
   testMatch: [
-    "<rootDir>/api/src/**/*.spec.ts"
+    "<rootDir>/api/src/tests/*.spec.ts"
   ],
   transform: {
     "^.+\\.(ts|tsx)$" : "ts-jest",

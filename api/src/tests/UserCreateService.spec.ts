@@ -1,7 +1,7 @@
 import { AppError } from "../../utils/AppError";
 import { createUserBody } from "../../utils/ZodTemplates";
 import { UserRepository } from "../repositories/UserRepository";
-import { UserCreateService } from "./UserCreateService";
+import { UserCreateService } from "../services/UserCreateService";
 
 describe("USER CREATE SERVICE", () => {
     let userRepository: UserRepository;
