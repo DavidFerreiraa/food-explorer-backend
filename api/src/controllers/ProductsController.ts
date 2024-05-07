@@ -11,13 +11,8 @@ export class ProductsController {
         const productsRepository = new ProductsRepository();
         const productsCreateService = new ProductCreateService(productsRepository);
 
-        try {
-            const userCreated = await productsCreateService.execute({ title, description, price, imageUrl, categoryId, creatorId });
-            return reply.status(201).send(userCreated);
-        } catch (error) {
-            console.log(error)
-            throw new AppError({message: "An error ocurred in the product creation", statusCode: 500})
-        }
-
+        const userCreated = await productsCreateService.execute({ title, description, price, imageUrl, categoryId, creatorId });
+        
+        return reply.status(201).send(userCreated);
     }
 }

@@ -19,3 +19,7 @@ export const createProductBody = z.object({
     creatorId: z.string({required_error: "You forgot to insert a creator Id"}),
     categoryId: z.string({required_error: "You forgot to insert a category Id"})
 })
+
+export const createCategoryBody = z.object({
+    name: z.string({required_error: "You forgot to insert a name"})
+})
