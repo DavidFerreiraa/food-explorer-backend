@@ -3,6 +3,11 @@ import { prisma } from "../lib/prisma";
 import { createCategoryBody } from "../../utils/ZodTemplates";
 
 export class CategoryRepository {
+    async index(): Promise< Category[] | null>{
+        const categories = await prisma.category.findMany()
+        return categories;
+    }
+
     async findById(id: string): Promise<Category | null> {
         const category = await prisma.category.findUnique({
             where: {
