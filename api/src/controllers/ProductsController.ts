@@ -4,25 +4,8 @@ import { ProductsRepository } from "../repositories/ProductsRepository";
 import { ProductCreateService } from "../services/ProductsCreateService";
 import { ProductsImageService } from "../services/ProductsImageService";
 import { AppError } from "../../utils/AppError";
+import { IBody } from "../interfaces/IBody";
 
-export interface IBody {
-    json: string
-}
-
-declare module 'fastify' {
-    interface FastifyRequest {
-        file?: {
-            fieldname: string,
-            originalname: string,
-            encoding: string,
-            mimetype: string,
-            destination: string,
-            filename: string,
-            path: string,
-            size: number
-          }
-    }
-}
 export class ProductsController {
     productsRepository = new ProductsRepository();
 

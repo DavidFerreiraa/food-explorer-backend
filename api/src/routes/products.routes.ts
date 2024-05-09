@@ -1,9 +1,10 @@
 import { FastifyInstance, FastifyRequest } from "fastify";
 import { authenticated } from "../middleware/authenticated";
 import { authorized } from "../middleware/authorized";
-import { IBody, ProductsController } from "../controllers/ProductsController";
+import { ProductsController } from "../controllers/ProductsController";
 import multer from "fastify-multer";
 import { STORAGE } from "../config/upload";
+import { IBody } from "../interfaces/IBody";
 
 export async function productsRoutes(fastify: FastifyInstance) {
     const productsController = new ProductsController();
