@@ -14,12 +14,23 @@ export const createSessionBody = z.object({
 export const createProductBody = z.object({
     title: z.string({required_error: "You forgot to insert a title"}),
     description: z.string({required_error: "You forgot to insert a description"}),
-    price: z.string().default("00"),
-    imageUrl: z.string({required_error: "You forgot to insert a image"}).url({message: "Check if it's really an url"}),
-    creatorId: z.string({required_error: "You forgot to insert a creator Id"}),
+    price: z.string().default("0"),
     categoryId: z.string({required_error: "You forgot to insert a category Id"})
 })
 
 export const createCategoryBody = z.object({
     name: z.string({required_error: "You forgot to insert a name"})
+})
+
+export const createProductImageParams = z.object({
+    productId: z.string({required_error: "You forgot to insert the productId"}),
+    productImageUrl: z.string({required_error: "You forgot to insert the image url"})
+})
+
+export const createProductId = z.object({
+    productId: z.string({required_error: "You forgot to insert the productId"}),
+})
+
+export const createProductImageUrl = z.object({
+    productImageUrl: z.string({required_error: "You forgot to insert the image url"})
 })
