@@ -8,4 +8,5 @@ export async function ordersRoutes(fastify: FastifyInstance) {
     fastify.post("/orders/:productId", {preHandler: [authenticated]}, async (request, reply) => await orderController.create(request, reply));
     fastify.get("/orders", {preHandler: [authenticated]}, async (request, reply) => await orderController.index(request, reply));
     fastify.get("/orders/:orderId", {preHandler: [authenticated]}, async (request, reply) => await orderController.show(request, reply));
+    fastify.delete("/orders/:orderId", {preHandler: [authenticated]}, async (request, reply) => await orderController.delete(request, reply));
 }

@@ -4,7 +4,6 @@ import { ProductsRepository } from "../repositories/ProductsRepository";
 import { ProductsImageService } from "../services/ProductsImageService";
 import { ProductsShowService } from "../services/ProductsShowService";
 import { FastifyReply, FastifyRequest } from "fastify";
-import { AppError } from "../../utils/AppError";
 import { IBody } from "../interfaces/IBody";
 
 export class ProductsController {
@@ -21,12 +20,8 @@ export class ProductsController {
 
     async create(request: FastifyRequest<{Body: IBody}>, reply: FastifyReply) {
         const { title, description, price, categoryId, ingredients } = createProductBody.parse(JSON.parse(request.body.json));
-
-        if (!request.file) {
-            throw new AppError({ message: "There's no images to upload", statusCode: 400 })
-        }
         
-        const imageFile = request.file.filename
+        const imageFile = request.file?.filename || ""
         
         const { id } = request.user;
 
@@ -38,12 +33,8 @@ export class ProductsController {
 
     async updateImage(request: FastifyRequest, reply: FastifyReply) {
         const { productId } = createProductId.parse(request.params);
-
-        if (!request.file) {
-            throw new AppError({ message: "There's no images to update", statusCode: 400 })
-        }
         
-        const imageFile = request.file.filename
+        const imageFile = request.file?.filename || ""
 
         const productsRepository = new ProductsRepository();
         const productsImageService = new ProductsImageService(productsRepository);

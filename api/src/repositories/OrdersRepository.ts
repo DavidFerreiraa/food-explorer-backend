@@ -1,4 +1,4 @@
-import { Order } from "@prisma/client";
+import { Order, Product } from "@prisma/client";
 import { prisma } from "../lib/prisma";
 
 export interface ICreateOrder {
@@ -43,6 +43,23 @@ export class OrdersRepository {
         return order;
     }
 
+    async findProductById(id: string): Promise<Product | null> {
+        const product = await prisma.product.findUnique({
+            where: {
+                id
+            },
+            include: {
+                OrderProducts: {
+                    include: {
+                        Product: true
+                    }
+                }
+            }
+        })
+
+        return product;
+    }
+
     async create({ totalPrice, quantity, ownerId, productId }: ICreateOrder): Promise<Order | null> {
         const order = await prisma.order.create({data: {
             totalPrice,
@@ -56,5 +73,13 @@ export class OrdersRepository {
         }})
 
         return order;
+    }
+
+    async delete(id: string) {
+        await prisma.order.delete({
+            where: {
+                id
+            }
+        })
     }
 }

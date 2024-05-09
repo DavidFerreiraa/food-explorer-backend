@@ -2,7 +2,8 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import { OrdersRepository } from "../repositories/OrdersRepository";
 import { OrderCreateService } from "../services/OrderCreateService";
 import { createOrderBody, createOrderId, createProductId } from "../../utils/ZodTemplates";
-import { AppError } from "../../utils/AppError";
+import { OrderDeleteService } from "../services/OrderDeleteService";
+import { OrderShowService } from "../services/OrderShowService";
 
 export class OrderController {
     orderRepository = new OrdersRepository();
@@ -19,15 +20,8 @@ export class OrderController {
         const ownerId = request.user.id;
         const { orderId } = createOrderId.parse(request.params);
 
-        const order = await this.orderRepository.findById(orderId);
-
-        if (!order) {
-            throw new AppError({message: "This order don't exists", statusCode: 404})
-        }
-
-        if(!(order.ownerId === ownerId)) {
-            throw new AppError({message: "Unauthorized", statusCode: 409})
-        }
+        const orderShowService = new OrderShowService(this.orderRepository);
+        const order = orderShowService.execute(orderId, ownerId);
 
         return reply.status(200).send(order);
     }
@@ -41,5 +35,18 @@ export class OrderController {
         const orderCreated = await orderCreateService.execute({ totalPrice, quantity, productId, ownerId});
 
         return reply.status(201).send(orderCreated);
+    }
+
+    async delete(request: FastifyRequest, reply: FastifyReply) {
+        const { orderId } = createOrderId.parse(request.params);
+        const ownerId = request.user.id;
+
+        const orderDeleteService = new OrderDeleteService(this.orderRepository);
+        await orderDeleteService.execute(orderId, ownerId);
+
+        return reply.status(200).send({
+            type: "success",
+            message: "order successfully deleted"
+        })
     }
 }

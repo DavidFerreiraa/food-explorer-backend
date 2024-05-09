@@ -12,10 +12,10 @@ export class OrderCreateService {
 
     async execute({ totalPrice, quantity, ownerId, productId }: IOrder): Promise<Order | null>{
 
-        const orderExists = await this.ordersRepository.findById(productId);
+        const orderExists = await this.ordersRepository.findProductById(productId);
 
-        if (orderExists) {
-            throw new AppError({ message: "This order already exists", statusCode: 409 });
+        if (!orderExists) {
+            throw new AppError({ message: "This product don't exists", statusCode: 404 });
         }
 
         if (totalPrice === null || quantity === null) {

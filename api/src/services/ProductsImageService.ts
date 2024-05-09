@@ -11,6 +11,10 @@ export class ProductsImageService {
     }
 
     async execute(productId: string, imageFile: string): Promise<Product | null>{
+        if (imageFile?.length === 0 || imageFile === undefined) {
+            throw new AppError({ message: "image is missing", statusCode: 400 })
+        }
+        
         const product = await this.productRepository.findById(productId);
 
         if (!product) {

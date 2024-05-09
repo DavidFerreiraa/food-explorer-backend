@@ -6,5 +6,5 @@ export interface IProduct {
     price: string | Decimal,
     ingredients: string[],
     creatorId: string,
-    imageFile?: any
+    imageFile?: string
 }
