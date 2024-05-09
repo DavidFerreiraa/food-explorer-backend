@@ -8,13 +8,20 @@ export class ProductsRepository {
         const product = await prisma.product.findUnique({
             where: {
                 id
+            },
+            include: {
+                Ingredients: true
             }
         })
 
         return product;
     }
 
-    async create({title, description, price, creatorId}: IProduct, categoryId: string, imageUrl: string): Promise<Product | null> {
+    async create({title, description, price, ingredients, creatorId}: IProduct, categoryId: string, imageUrl: string): Promise<Product | null> {
+        const data = ingredients.map(ingredient => ({
+            name: ingredient
+        }));
+        console.log(data);
         const createdProduct = await prisma.product.create({data: {
             title,
             description,
@@ -24,6 +31,11 @@ export class ProductsRepository {
             Categories: {
                 create: {
                     categoryId
+                }
+            },
+            Ingredients: {
+                createMany: {
+                    data
                 }
             }
         }})

@@ -21,7 +21,7 @@ export class ProductsController {
     }
 
     async create(request: FastifyRequest<{Body: IBody}>, reply: FastifyReply) {
-        const { title, description, price, categoryId } = createProductBody.parse(JSON.parse(request.body.json));
+        const { title, description, price, categoryId, ingredients } = createProductBody.parse(JSON.parse(request.body.json));
 
         if (!request.file) {
             throw new AppError({ message: "There's no images to upload", statusCode: 400 })
@@ -33,7 +33,7 @@ export class ProductsController {
 
         const productsCreateService = new ProductCreateService(this.productsRepository);
 
-        const productCreated = await productsCreateService.execute({ title, description, price, imageFile, creatorId: id }, categoryId);
+        const productCreated = await productsCreateService.execute({ title, description, price, imageFile, ingredients, creatorId: id }, categoryId);
         
         return reply.status(201).send(productCreated);
     }

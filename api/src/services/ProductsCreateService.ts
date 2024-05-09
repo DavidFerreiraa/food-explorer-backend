@@ -11,12 +11,12 @@ export class ProductCreateService {
         this.productRepository = productRepository;
     }
 
-    async execute({title, description, price, imageFile, creatorId}: IProduct, categoryId: string): Promise<Product | null>{
+    async execute({title, description, price, ingredients, imageFile, creatorId}: IProduct, categoryId: string): Promise<Product | null>{
         const imageUrl = await updateImage({newImageFile: imageFile})
 
         const productPrice = new Decimal(price);
         
-        const createdProduct = await this.productRepository.create({title, description, price: productPrice, creatorId}, categoryId, imageUrl);
+        const createdProduct = await this.productRepository.create({title, description, price: productPrice, ingredients, creatorId}, categoryId, imageUrl);
     
         return createdProduct;
     }

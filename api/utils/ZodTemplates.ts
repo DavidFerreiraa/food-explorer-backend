@@ -15,7 +15,8 @@ export const createProductBody = z.object({
     title: z.string({required_error: "You forgot to insert a title"}),
     description: z.string({required_error: "You forgot to insert a description"}),
     price: z.string().default("0"),
-    categoryId: z.string({required_error: "You forgot to insert a category Id"})
+    categoryId: z.string({required_error: "You forgot to insert a category Id"}),
+    ingredients: z.array<z.ZodString>(z.string(), {required_error: "Insert at least one ingredient"})
 })
 
 export const createCategoryBody = z.object({

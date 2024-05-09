@@ -41,7 +41,7 @@ model Product {
   description String
   price       Decimal                @db.Decimal(10, 2)
   imageUrl    String
-  igredients  Igredients[]
+  Ingredients  Ingredients[]
   Categories  CategoriesOnProducts[]
 
   Creator     User       @relation(fields: [creatorId], references: [id])
@@ -102,12 +102,12 @@ model Favorites {
   userId String @unique
 }
 
-model Igredients {
+model Ingredients {
   id   String @id @default(cuid())
   name String
 
   Product   Product @relation(fields: [productId], references: [id])
-  productId String  @unique
+  productId String
 }
 
 enum Role {
