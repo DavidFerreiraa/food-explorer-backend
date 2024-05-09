@@ -1,4 +1,5 @@
 import { AppError } from "../../utils/AppError";
+import { deleteImage } from "../../utils/updateImage";
 import { ProductsRepository } from "../repositories/ProductsRepository";
 
 export class ProductsDeleteService {
@@ -12,13 +13,15 @@ export class ProductsDeleteService {
         const product = await this.productsRepository.findById(productId);
 
         if (!product) {
-            throw new AppError({message: "This order don't exists", statusCode: 404})
+            throw new AppError({message: "This product don't exists", statusCode: 404})
         }
 
         if(!(product.id === productId)) {
             throw new AppError({message: "Unauthorized", statusCode: 409})
         }
 
-        this.productsRepository.delete(productId);
+        await deleteImage(product.imageUrl);
+
+        await this.productsRepository.delete(productId);
     }
 }

@@ -45,7 +45,7 @@ model Product {
   Categories  CategoriesOnProducts[]
 
   Creator     User       @relation(fields: [creatorId], references: [id])
-  creatorId   String     @unique
+  creatorId   String     
   Favorites   Favorites? @relation(fields: [favoritesId], references: [id])
   favoritesId String?
 
@@ -78,15 +78,15 @@ model Order {
 
 model Category {
   id     String                 @id @default(cuid())
-  name   String                 @unique
+  name   String                 
   Orders CategoriesOnProducts[]
 }
 
 model CategoriesOnProducts {
   Product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  productId  String   @unique
+  productId  String   
   Category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  categoryId String   @unique
+  categoryId String   
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
