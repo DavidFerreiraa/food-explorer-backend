@@ -14,7 +14,6 @@ export class ProductsController {
         const { productId } = createProductId.parse(request.params);
 
         const productsShowService = new ProductsShowService(this.productsRepository);
-
         const product = await productsShowService.execute(productId);
         
         return reply.status(200).send(product);
@@ -32,7 +31,6 @@ export class ProductsController {
         const { id } = request.user;
 
         const productsCreateService = new ProductCreateService(this.productsRepository);
-
         const productCreated = await productsCreateService.execute({ title, description, price, imageFile, ingredients, creatorId: id }, categoryId);
         
         return reply.status(201).send(productCreated);

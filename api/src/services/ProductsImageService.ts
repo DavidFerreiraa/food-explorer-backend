@@ -10,14 +10,14 @@ export class ProductsImageService {
         this.productRepository = productRepository;
     }
 
-    async execute(productId: string, imageFile: any ): Promise<Product | null>{
+    async execute(productId: string, imageFile: string): Promise<Product | null>{
         const product = await this.productRepository.findById(productId);
 
         if (!product) {
             throw new AppError({message: "This product don't exists", statusCode: 404})
         }
-
-        const updatedImageUrl = await updateImage({newImageFile: imageFile});
+        
+        const updatedImageUrl = await updateImage({ newImageFile: imageFile, imageUrl: product.imageUrl });
 
         const updatedProduct = await this.productRepository.updateProductImage({ productId, productImageUrl: updatedImageUrl });
 

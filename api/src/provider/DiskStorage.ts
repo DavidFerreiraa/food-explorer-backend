@@ -12,7 +12,7 @@ export class DiskStorage {
         return file;
     }
 
-    async deleteFile(file: any){
+    async deleteFile(file: string){
         const filePath = path.resolve(UPLOADS_FOLDER, file)
 
         try {
