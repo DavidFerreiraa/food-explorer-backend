@@ -21,7 +21,7 @@ export class ProductsRepository {
         const data = ingredients.map(ingredient => ({
             name: ingredient
         }));
-        console.log(data);
+        
         const createdProduct = await prisma.product.create({data: {
             title,
             description,
