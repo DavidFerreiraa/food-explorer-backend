@@ -13,6 +13,13 @@ export class OrdersRepository {
         const orders = await prisma.order.findMany({
             where: {
                 ownerId
+            },
+            include: {
+                OrderProducts: {
+                    include: {
+                        Product: true
+                    }
+                }
             }
         });
 
@@ -23,6 +30,13 @@ export class OrdersRepository {
         const order = await prisma.order.findUnique({
             where: {
                 id
+            },
+            include: {
+                OrderProducts: {
+                    include: {
+                        Product: true
+                    }
+                }
             }
         })
 
