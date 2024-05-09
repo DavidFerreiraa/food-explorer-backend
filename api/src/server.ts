@@ -5,6 +5,7 @@ import { ZodError } from 'zod';
 import { fastifyCookie } from '@fastify/cookie';
 import cors from '@fastify/cors';
 import { routes } from './routes';
+import multer from 'fastify-multer';
 
 const fastify = Fastify({
     logger: true
@@ -15,6 +16,8 @@ export async function start() {
         credentials: true,
         origin: ["http://127.0.0.1:3333", "http://localhost:3333"]
     })
+
+    fastify.register(multer.contentParser);
 
     fastify.setErrorHandler((error, request, reply) => {
         if (error instanceof AppError) {
