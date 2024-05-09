@@ -8,7 +8,7 @@ import { $Enums } from "@prisma/client";
 declare module 'fastify' {
     interface FastifyRequest {
         user: {
-            id: string | (() => string),
+            id: string,
             role: $Enums.Role
         }
     }

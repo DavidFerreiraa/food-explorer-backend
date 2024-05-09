@@ -1,6 +1,7 @@
 import { Product } from "@prisma/client";
 import { prisma } from "../lib/prisma";
-import { createProductBody } from "../../utils/ZodTemplates";
+import { createProductImageParams } from "../../utils/ZodTemplates";
+import { IProduct } from "../interfaces/IProduct";
 
 export class ProductsRepository {
     async findById(id: string): Promise<Product | null> {
@@ -13,20 +14,33 @@ export class ProductsRepository {
         return product;
     }
 
-    async create({ title, description, price, creatorId, imageUrl, categoryId }: typeof createProductBody._type): Promise<Product | null> {
-        const product = await prisma.product.create({data: {
+    async create({title, description, price, creatorId}: IProduct, categoryId: string, imageUrl: string): Promise<Product | null> {
+        const createdProduct = await prisma.product.create({data: {
             title,
             description,
             price,
             creatorId,
             imageUrl,
             Categories: {
-                connect: {
+                create: {
                     categoryId
                 }
             }
         }})
 
-        return product;
+        return createdProduct;
+    }
+
+    async updateProductImage({ productId, productImageUrl }: typeof createProductImageParams._type): Promise<Product | null>{
+        const updatedProduct = await prisma.product.update({
+            where: {
+                id: productId
+            },
+            data: {
+                imageUrl: productImageUrl
+            }
+        })
+
+        return updatedProduct;
     }
 }

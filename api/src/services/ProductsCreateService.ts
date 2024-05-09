@@ -1,17 +1,23 @@
 import { Product } from "@prisma/client";
 import { ProductsRepository } from "../repositories/ProductsRepository";
-import { createProductBody } from "../../utils/ZodTemplates";
+import { Decimal } from "@prisma/client/runtime/library";
+import { IProduct } from "../interfaces/IProduct";
+import { updateImage } from "../../utils/updateImage";
 
 export class ProductCreateService {
     productRepository;
 
     constructor(productRepository: ProductsRepository) {
-        this.productRepository = productRepository
+        this.productRepository = productRepository;
     }
 
-    async execute({title, description, price, imageUrl, categoryId, creatorId, }: typeof createProductBody._type): Promise<Product | null>{
-        const createdProduct = await this.productRepository.create({title, description, price, imageUrl, categoryId, creatorId})
+    async execute({title, description, price, imageFile, creatorId}: IProduct, categoryId: string): Promise<Product | null>{
+        const imageUrl = await updateImage({newImageFile: imageFile})
 
+        const productPrice = new Decimal(price);
+        
+        const createdProduct = await this.productRepository.create({title, description, price: productPrice, creatorId}, categoryId, imageUrl);
+    
         return createdProduct;
     }
 }

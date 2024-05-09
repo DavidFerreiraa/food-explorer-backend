@@ -1,10 +1,9 @@
 import { promises } from "fs";
-import { TMP_FOLDER, UPLOADS_FOLDER } from "../config/upload";
+import { TMP_FOLDER, UPLOADS_FOLDER } from "../config/upload.js";
 import path from "path";
 
 export class DiskStorage {
-    async saveFile(file: any){
-        console.log(typeof file);
+    async saveFile(file: string){
         await promises.rename(
             path.resolve(TMP_FOLDER, file),
             path.resolve(UPLOADS_FOLDER, file)
