@@ -12,4 +12,5 @@ export async function productsRoutes(fastify: FastifyInstance) {
 
     fastify.post("/products", {preHandler: [authenticated, authorized(["ADMIN"]), upload.single("productImage")]}, async (request, reply) => await productsController.create(request as FastifyRequest<{Body: IBody}>, reply));
     fastify.patch("/products/:productId", {preHandler: [authenticated, authorized(["ADMIN"]), upload.single("productImage")]}, async (request, reply) => await productsController.updateImage(request, reply));
+    fastify.get("/products/:productId", {preHandler: [authenticated]}, async (request, reply) => await productsController.show(request, reply));
 }

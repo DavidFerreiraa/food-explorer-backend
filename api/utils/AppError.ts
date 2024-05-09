@@ -1,7 +1,4 @@
-interface IAppError {
-    message: string,
-    statusCode: number
-}
+import { IAppError } from "../src/interfaces/IAppError";
 
 export class AppError {
     message: string;

@@ -1,3 +1,3 @@
 export interface IBody {
-    json: string
+    json: string,
 }

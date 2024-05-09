@@ -12,12 +12,12 @@ declare module 'fastify' {
             filename: string,
             path: string,
             size: number
-          },
-          user: {
+            },
+        user: {
             id: string,
             role: $Enums.Role
+            },
         }
-    }
 
     interface MyJwtPayload extends JwtPayload {
         role: $Enums.Role
