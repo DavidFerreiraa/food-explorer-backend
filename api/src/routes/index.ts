@@ -4,6 +4,7 @@ import { sessionsRoutes } from "./sessions.routes";
 import { categoriesRoutes } from "./categories.routes";
 import { productsRoutes } from "./products.routes";
 import { ordersRoutes } from "./orders.routes";
+import { filesRoutes } from "./files.routes";
 
 export async function routes(fastify: FastifyInstance) {
 
@@ -12,4 +13,5 @@ export async function routes(fastify: FastifyInstance) {
     await fastify.register(categoriesRoutes);
     await fastify.register(productsRoutes);
     await fastify.register(ordersRoutes);
+    await fastify.register(filesRoutes);
 }

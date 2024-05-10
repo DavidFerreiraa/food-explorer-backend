@@ -3,9 +3,11 @@ import Fastify from 'fastify';
 import { AppError } from '../utils/AppError';
 import { ZodError } from 'zod';
 import { fastifyCookie } from '@fastify/cookie';
+import { fastifyStatic } from '@fastify/static';
 import cors from '@fastify/cors';
 import { routes } from './routes';
 import multer from 'fastify-multer';
+import { UPLOADS_FOLDER } from './config/upload';
 
 const fastify = Fastify({
     logger: true
@@ -16,6 +18,10 @@ export async function start() {
         credentials: true,
         origin: ["http://127.0.0.1:3333", "http://localhost:3333"]
     })
+    
+    fastify.register(fastifyStatic, {
+        root: UPLOADS_FOLDER
+    });
 
     fastify.register(multer.contentParser);
 
