@@ -11,8 +11,8 @@ export class SessionsController {
         const sessionsCreateService = new SessionsCreateService(userRepository);
 
         const {user, jwtToken} = await sessionsCreateService.execute({email, password});
-
-        reply.setCookie("token", jwtToken, {
+        
+        return reply.setCookie("token", jwtToken, {
             httpOnly: true,
             sameSite: "none",
             secure: true,

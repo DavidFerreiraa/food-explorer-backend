@@ -14,17 +14,22 @@ const fastify = Fastify({
 })
 
 export async function start() {
+    await fastify.register(fastifyCookie, {
+        secret: process.env.SECRET_JWT,
+    });
+
     await fastify.register(cors, {
         credentials: true,
-        origin: ["http://127.0.0.1:3333", "http://localhost:3333"]
+        origin: ["http://127.0.0.1:3333", "http://localhost:3333", "http://localhost:5173", "http://127.0.0.1:5173"]
     })
+
     
     fastify.register(fastifyStatic, {
         root: UPLOADS_FOLDER
     });
-
+    
     fastify.register(multer.contentParser);
-
+    
     fastify.setErrorHandler((error, request, reply) => {
         if (error instanceof AppError) {
             return reply.code(error.statusCode).send({
@@ -39,17 +44,16 @@ export async function start() {
             })
         } else {
             console.log(error);
-
+            
             return reply.code(500).send({
                 type: "Server error",
                 message: "An error ocurred with the application server.\n Contact the support for help."
             })
         }
     });
-
-    await fastify.register(fastifyCookie)
-
+    
     await fastify.register(routes);
+    
 
     await fastify.listen({ port: 3333})
 }
