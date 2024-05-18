@@ -1,14 +1,24 @@
-import { createProductBody, createProductId } from "../../utils/ZodTemplates";
+import { createProductBody, createProductId, createProductQuery } from "../../utils/ZodTemplates";
+import { ProductsDeleteService } from "../services/ProductsDeleteService";
 import { ProductCreateService } from "../services/ProductsCreateService";
 import { ProductsRepository } from "../repositories/ProductsRepository";
+import { ProductsIndexService } from "../services/ProductsIndexService";
 import { ProductsImageService } from "../services/ProductsImageService";
 import { ProductsShowService } from "../services/ProductsShowService";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { IBody } from "../interfaces/IBody";
-import { ProductsDeleteService } from "../services/ProductsDeleteService";
 
 export class ProductsController {
     productsRepository = new ProductsRepository();
+
+    async index(request: FastifyRequest, reply: FastifyReply) {
+        const {ingredients, productName, limit} = createProductQuery.parse(request.query);
+
+        const productsIndexService = new ProductsIndexService(this.productsRepository);
+        const product = await productsIndexService.execute(ingredients, productName, limit);
+        
+        return reply.status(200).send(product);
+    }
 
     async show(request: FastifyRequest, reply: FastifyReply) {
         const { productId } = createProductId.parse(request.params);
@@ -20,10 +30,10 @@ export class ProductsController {
     }
 
     async create(request: FastifyRequest<{Body: IBody}>, reply: FastifyReply) {
-        const { title, description, price, categoryId, ingredients } = createProductBody.parse(JSON.parse(request.body.json));
-        
+        const productJsonBody = JSON.parse(request.body.json)
+        const { title, description, price, ingredients, categoryId } = createProductBody.parse(productJsonBody);
+
         const imageFile = request.file?.filename || ""
-        
         const { id } = request.user;
 
         const productsCreateService = new ProductCreateService(this.productsRepository);
