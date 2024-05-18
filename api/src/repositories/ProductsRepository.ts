@@ -4,6 +4,24 @@ import { createProductImageParams } from "../../utils/ZodTemplates";
 import { IProduct } from "../interfaces/IProduct";
 
 export class ProductsRepository {
+    async index(ingredients?: string, productName?: string, limit?: number): Promise<Product[] | null> {
+        const products = await prisma.product.findMany({
+            where: {
+                Ingredients: {
+                    some: {
+                        name: ingredients
+                    }
+                },
+                title: {
+                    contains: `${productName}%`
+                }
+            },
+            take: limit
+        })
+
+        return products;
+    }
+
     async findById(id: string): Promise<Product | null> {
         const product = await prisma.product.findUnique({
             where: {
