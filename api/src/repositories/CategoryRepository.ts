@@ -19,7 +19,7 @@ export class CategoryRepository {
     }
 
     async findByName(name: string) {
-        const category = await prisma.category.findUnique({
+        const category = await prisma.category.findMany({
             where: {
                 name
             }
