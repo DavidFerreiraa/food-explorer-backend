@@ -9,7 +9,7 @@ export class ProductsIndexService {
         this.productsRepository = productsRepository;
     }
 
-    async execute(ingredients?: string, productName?: string, limit?: number): Promise<Product[] | null> {
+    async execute(ingredients?: string, productName?: string, limit: number = 5): Promise<Product[] | null> {
         const products = await this.productsRepository.index(ingredients, productName, limit);
         
         if (!products) {

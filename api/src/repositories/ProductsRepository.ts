@@ -4,12 +4,55 @@ import { createProductImageParams } from "../../utils/ZodTemplates";
 import { IProduct } from "../interfaces/IProduct";
 
 export class ProductsRepository {
-    async index(ingredients?: string, productName?: string, limit?: number): Promise<Product[] | null> {
+    async index(ingredients: string = "", productName: string = "", limit: number = 5): Promise<Product[] | null> {
+        const filteredIngredients = ingredients?.split(",").filter((ingredient) => ingredient.trim());
+        console.log(filteredIngredients);
+
+        if(filteredIngredients.length === 0 && productName.length === 0) {
+            const products = await prisma.product.findMany({
+                take: limit
+            })
+
+            return products;
+        }
+
+        if(filteredIngredients.length === 0){
+            const products = await prisma.product.findMany({
+                where: {
+                    title: {
+                        contains: `${productName}%`
+                    }
+                },
+                take: limit
+            })
+    
+            return products;
+        }
+
+        if(productName.length === 0){
+            const products = await prisma.product.findMany({
+                where: {
+                    Ingredients: {
+                        some: {
+                            name: {
+                                in: filteredIngredients
+                            }
+                        }
+                    },
+                },
+                take: limit
+            })
+    
+            return products;
+        }
+
         const products = await prisma.product.findMany({
             where: {
                 Ingredients: {
                     some: {
-                        name: ingredients
+                        name: {
+                            in: filteredIngredients
+                        }
                     }
                 },
                 title: {

@@ -15,7 +15,7 @@ export class ProductsController {
         const {ingredients, productName, limit} = createProductQuery.parse(request.query);
 
         const productsIndexService = new ProductsIndexService(this.productsRepository);
-        const product = await productsIndexService.execute(ingredients, productName, limit);
+        const product = await productsIndexService.execute(ingredients, productName, limit || 5);
         
         return reply.status(200).send(product);
     }
