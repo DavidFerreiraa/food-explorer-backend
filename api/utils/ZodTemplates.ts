@@ -50,3 +50,7 @@ export const createOrderBody = z.object({
 export const createOrderId = z.object({
     orderId: z.string({required_error: "You forgot to insert the order id"}).min(1, {message: "You forgot to insert the order id"}),
 })
+
+export const createFavoriteId = z.object({
+    favoriteId: z.string({required_error: "You forgot to insert the order id"}).min(1, {message: "You forgot to insert the order id"}),
+})

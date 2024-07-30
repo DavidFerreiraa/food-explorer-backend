@@ -4,7 +4,15 @@ import { createCategoryBody } from "../../utils/ZodTemplates";
 
 export class CategoryRepository {
     async index(): Promise< Category[] | null>{
-        const categories = await prisma.category.findMany()
+        const categories = await prisma.category.findMany({
+            include: {
+                Products: {
+                    select: {
+                        Product: true
+                    }
+                }
+            }
+        })
         return categories;
     }
 
