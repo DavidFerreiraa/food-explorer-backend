@@ -1,46 +1,56 @@
-import { FastifyReply, FastifyRequest, HookHandlerDoneFunction, MyJwtPayload } from "fastify";
+import { FastifyReply, FastifyRequest, MyJwtPayload } from "fastify";
 import { AppError } from "../../utils/AppError";
-import { JwtPayload } from "jsonwebtoken";
 import jwt from "jsonwebtoken";
 import { auth } from "../config/auth";
-import { $Enums } from "@prisma/client";
+import { extractTokens } from "../../utils/extractTokens";
+import { refreshAccessToken } from "../services/RefreshAccessTokenService";
 
-declare module 'fastify' {
-    interface FastifyRequest {
-        user: {
-            id: string,
-            role: $Enums.Role
-        }
-    }
-
-    interface MyJwtPayload extends JwtPayload {
-        role: $Enums.Role
-    }
-}
-
-export function authenticated(request: FastifyRequest, reply: FastifyReply, done: HookHandlerDoneFunction){
+export async function authenticated(request: FastifyRequest, reply: FastifyReply) {
     const headers = request.headers;
 
     if (!headers.cookie) {
-        throw new AppError({ message: "JWT is missing", statusCode: 401});
+        throw new AppError({ message: "JWT is missing", statusCode: 401 });
     }
 
-    const [, token] = headers.cookie.split("token=");
+    const { token, refreshToken } = extractTokens(headers.cookie);
 
     try {
-        const {sub: user_id, role} = jwt.verify(token, auth.jwt.secret) as MyJwtPayload;
+        // JWT verification
+        const { sub: user_id, role } = jwt.verify(token, auth.jwt.secret) as MyJwtPayload;
 
         if (!user_id) {
-            throw new AppError({ message: "Can't verify JWT token", statusCode: 401})
+            throw new AppError({ message: "Can't verify token", statusCode: 401 });
         }
 
-        request.user = {
-            id: user_id,
-            role
-        }
-
-        return done();
+        request.user = { id: user_id, role };
+        return;
     } catch (error) {
-        throw new AppError({ message: "Invalid JWT token", statusCode: 401})
+        // Verify if access token is expired
+        if (error instanceof jwt.TokenExpiredError) {
+            // if expired, refresh the access token
+            if (!refreshToken) {
+                throw new AppError({ message: "Refresh token missing", statusCode: 401 });
+            }
+
+            // Call the function that access
+            try {
+                const newAccessToken = await refreshAccessToken(refreshToken);
+
+                // Returns a new access token as a cookie
+                reply.setCookie("token", newAccessToken, {
+                    httpOnly: true,
+                    sameSite: "none",
+                    secure: true,
+                    maxAge: 15 * 60 * 1000 // 15 minutos
+                });
+
+                return;
+            } catch (refreshError) {
+                throw new AppError({ message: "Invalid or expired refresh token", statusCode: 401 });
+            }
+        }
+
+        // Throw auth error
+        throw new AppError({ message: "Invalid JWT token", statusCode: 401 });
     }
 }
