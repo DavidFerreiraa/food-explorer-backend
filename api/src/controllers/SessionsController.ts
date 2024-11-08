@@ -16,12 +16,12 @@ export class SessionsController {
             httpOnly: true,
             sameSite: "none",
             secure: true,
-            maxAge: 15*60*1000
+            maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
         }).setCookie("refreshToken", refreshJwtToken, {
             httpOnly: true,
             sameSite: "none",
             secure: true,
-            maxAge: 7 * 24 * 60 * 60 * 1000 // 7 dias
+            maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
         }).code(201).send(user);
     }
 }
