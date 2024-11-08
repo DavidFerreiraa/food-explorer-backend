@@ -10,7 +10,8 @@ import multer from 'fastify-multer';
 import { UPLOADS_FOLDER } from './config/upload';
 
 const fastify = Fastify({
-    logger: true
+    logger: true,
+    trustProxy: true
 })
 
 export async function start() {
@@ -20,7 +21,12 @@ export async function start() {
 
     await fastify.register(cors, {
         credentials: true,
-        origin: ["http://127.0.0.1:3333", "http://localhost:3333", "http://localhost:5173", "http://127.0.0.1:5173"]
+        origin: [
+            "http://127.0.0.1:3333",
+            "http://localhost:3333",
+            "http://localhost:5174", //frontend url
+            "http://127.0.0.1:5174", //frontend url
+        ]
     })
 
     
@@ -53,9 +59,8 @@ export async function start() {
     });
     
     await fastify.register(routes);
-    
 
-    await fastify.listen({ port: 3333})
+    await fastify.listen({port: 3333, host: '0.0.0.0'})
 }
 
 start();
