@@ -1,3 +1,5 @@
+import { AppError } from "./AppError";
+
 export function extractTokens(headerCookies: string): {token: string; refreshToken: string} {
     // Usando uma expressão regular para extrair o token e o refreshToken
     const regex = /token=([^;]+);?\s*refreshToken=([^;]+)/;
@@ -13,6 +15,6 @@ export function extractTokens(headerCookies: string): {token: string; refreshTok
             refreshToken: matches[2]   // A segunda captura é o valor do refreshToken
         };
     } else {
-        throw new Error("Tokens not found");
+        throw new AppError({message: "Tokens not found", statusCode: 404});
     }
 }
