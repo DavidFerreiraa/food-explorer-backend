@@ -8,7 +8,11 @@
   "scripts": {
     "test": "node --env-file=.env --experimental-vm-modules node_modules/jest/bin/jest.js",
     "tsc": "tsc",
-    "dev": "tsx watch api/src/server.ts"
+    "dev": "tsx watch api/src/server.ts",
+    "prisma-generate": "prisma generate --schema=./api/src/prisma/schema.prisma",
+    "generate-prisma-erd": "prisma-erd-generator --schema=./api/src/prisma/schema.prisma --output=/tmp/prisma-erd-GNxh3G/prisma.mmd",
+    "prisma-migrate": "prisma migrate dev --schema=api/src/prisma/schema.prisma",
+    "prisma-studio":"prisma studio --schema=api/src/prisma/schema.prisma -n 0.0.0.0 -p 5555"
   },
   "prisma": {
     "seed": "tsx api/src/prisma/seed.ts"
@@ -22,7 +26,7 @@
     "@babel/preset-env": "^7.24.5",
     "@babel/preset-typescript": "^7.24.1",
     "@jest/globals": "^29.7.0",
-    "@mermaid-js/mermaid-cli": "^10.8.0",
+    "@mermaid-js/mermaid-cli": "^10.9.1",
     "@types/bcrypt": "^5.0.2",
     "@types/jest": "^29.5.12",
     "@types/jsonwebtoken": "^9.0.6",
