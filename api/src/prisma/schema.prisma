@@ -12,7 +12,7 @@ generator erd {
   provider = "prisma-erd-generator"
   theme    = "dark"
   output   = "./ERD.svg"
-  mmdcPath = "../../node_modules/.bin/"
+  mmdcPath = "node_modules/.bin/"
 }
 
 datasource db {
@@ -33,6 +33,7 @@ model User {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   Product   Product[]
+  refreshToken String?
 }
 
 model Product {
