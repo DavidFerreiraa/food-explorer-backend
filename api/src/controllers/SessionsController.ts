@@ -10,13 +10,18 @@ export class SessionsController {
         const userRepository = new UserRepository();
         const sessionsCreateService = new SessionsCreateService(userRepository);
 
-        const {user, jwtToken} = await sessionsCreateService.execute({email, password});
+        const { user, jwtToken, refreshJwtToken } = await sessionsCreateService.execute({email, password});
 
         return reply.setCookie("token", jwtToken, {
             httpOnly: true,
             sameSite: "none",
             secure: true,
             maxAge: 15*60*1000
+        }).setCookie("refreshToken", refreshJwtToken, {
+            httpOnly: true,
+            sameSite: "none",
+            secure: true,
+            maxAge: 7 * 24 * 60 * 60 * 1000 // 7 dias
         }).code(201).send(user);
     }
 }
