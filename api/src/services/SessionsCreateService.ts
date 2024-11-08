@@ -8,7 +8,8 @@ import { User } from "@prisma/client";
 
 interface ISessionCreateService {
     user: Omit<User, "password">,
-    jwtToken: string
+    jwtToken: string,
+    refreshJwtToken: string
 }
 
 export class SessionsCreateService {
@@ -32,18 +33,27 @@ export class SessionsCreateService {
         }
 
         const { secret, expiresIn } = auth.jwt;
+        const { refreshSecret, refreshExpiresIn } = auth.refreshToken
 
         const jwtToken = jwt.sign({role: user.Role}, secret, {
             subject: user.id,
             expiresIn
         })
 
+        const refreshJwtToken = jwt.sign({user_id: user.id}, refreshSecret, {
+            subject: user.id,
+            expiresIn: refreshExpiresIn
+        })
+
+        await this.userRepository.setRefreshToken(user.id, jwtToken);
+
         // @ts-ignore: the user received have a password, but the user shouldn't be able to see it.
         delete user.password;
 
         return {
             user,
-            jwtToken
+            jwtToken,
+            refreshJwtToken
         }
     }
 }
