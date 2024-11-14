@@ -7,6 +7,7 @@ import { ProductsImageService } from "../services/ProductsImageService";
 import { ProductsShowService } from "../services/ProductsShowService";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { IBody } from "../interfaces/IBody";
+import { ProductUpdateService } from "../services/ProductsUpdateService";
 
 export class ProductsController {
     productsRepository = new ProductsRepository();
@@ -40,6 +41,21 @@ export class ProductsController {
         const productCreated = await productsCreateService.execute({ title, description, price, imageFile, ingredients, creatorId: id }, categoryId);
         
         return reply.status(201).send(productCreated);
+    }
+
+    async update(request: FastifyRequest<{Body: IBody}>, reply: FastifyReply) {
+        const productJsonBody = JSON.parse(request.body.json)
+
+        const { productId } = createProductId.parse(request.params);
+        const { title, description, price, ingredients, categoryId } = createProductBody.partial().parse(productJsonBody);
+        
+        const imageFile = request.file?.filename || ""
+        const { id } = request.user;
+
+        const productsUpdateService = new ProductUpdateService(this.productsRepository);
+        const productUpdated = await productsUpdateService.execute({ id: productId, title, description, price, imageFile, ingredients, creatorId: id }, categoryId);
+        
+        return reply.status(201).send(productUpdated);
     }
 
     async updateImage(request: FastifyRequest, reply: FastifyReply) {
