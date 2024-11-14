@@ -11,7 +11,7 @@ export async function updateImage({imageUrl = "NOT_FOUND", newImageFile}: IUpdat
     await diskStorage.deleteFile(imageUrl);
 
     const newImageUrl = await diskStorage.saveFile(newImageFile);
-    return  newImageUrl;
+    return newImageUrl;
 }
 
 export async function deleteImage(imageUrl: string) {
