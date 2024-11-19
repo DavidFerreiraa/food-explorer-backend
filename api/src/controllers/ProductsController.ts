@@ -13,10 +13,10 @@ export class ProductsController {
     productsRepository = new ProductsRepository();
 
     async index(request: FastifyRequest, reply: FastifyReply) {
-        const {ingredients, productName, limit} = createProductQuery.parse(request.query);
+        const {searchTerm, limit} = createProductQuery.parse(request.query);
 
         const productsIndexService = new ProductsIndexService(this.productsRepository);
-        const product = await productsIndexService.execute(ingredients, productName, limit || 5);
+        const product = await productsIndexService.execute(searchTerm, limit || 30);
         
         return reply.status(200).send(product);
     }

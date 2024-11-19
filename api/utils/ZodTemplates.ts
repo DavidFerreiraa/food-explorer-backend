@@ -20,9 +20,8 @@ export const createProductBody = z.object({
 })
 
 export const createProductQuery = z.object({
-    productName: z.string(),
-    ingredients: z.string(),
-    limit: z.coerce.number()
+    searchTerm: z.string().optional(),
+    limit: z.coerce.number().optional()
 })
 
 export const createCategoryBody = z.object({

@@ -4,66 +4,51 @@ import { createProductImageParams } from "../../utils/ZodTemplates";
 import { IProduct } from "../interfaces/IProduct";
 
 export class ProductsRepository {
-    async index(ingredients: string = "", productName: string = "", limit: number = 5): Promise<Product[] | null> {
-        const filteredIngredients = ingredients?.split(",").filter((ingredient) => ingredient.trim());
-        console.log(filteredIngredients);
-
-        if(filteredIngredients.length === 0 && productName.length === 0) {
+    async index(search: string = "", limit: number = 30): Promise<Product[] | null> {
+        // Split the search term into individual words or phrases based on commas (if there are multiple)
+        const searchTerms = search?.split(",").map(term => term.trim()).filter(Boolean);
+    
+        console.log(searchTerms);
+    
+        // If no search terms are provided, return the first `limit` products
+        if (searchTerms.length === 0) {
             const products = await prisma.product.findMany({
                 take: limit
-            })
-
-            return products;
-        }
-
-        if(filteredIngredients.length === 0){
-            const products = await prisma.product.findMany({
-                where: {
-                    title: {
-                        contains: `${productName}%`
-                    }
-                },
-                take: limit
-            })
+            });
     
             return products;
         }
-
-        if(productName.length === 0){
-            const products = await prisma.product.findMany({
-                where: {
-                    Ingredients: {
-                        some: {
-                            name: {
-                                in: filteredIngredients
-                            }
-                        }
-                    },
-                },
-                take: limit
-            })
     
-            return products;
-        }
-
+        // If search terms are provided, construct the query
         const products = await prisma.product.findMany({
             where: {
-                Ingredients: {
-                    some: {
-                        name: {
-                            in: filteredIngredients
+                // Search by Ingredients or Title (using OR)
+                OR: [
+                    {
+                        // Search in product title (name)
+                        title: {
+                            contains: searchTerms.join(" "),  // Look for search terms in the product title
+                            mode: 'insensitive'  // Case insensitive search
+                        }
+                    },
+                    {
+                        // Search for products that have the ingredients matching the search terms
+                        Ingredients: {
+                            some: {
+                                name: {
+                                    in: searchTerms  // Look for matching ingredients in the product's Ingredients list
+                                }
+                            }
                         }
                     }
-                },
-                title: {
-                    contains: `${productName}%`
-                }
+                ]
             },
             take: limit
-        })
-
+        });
+    
         return products;
     }
+    
 
     async findById(id: string): Promise<Prisma.ProductGetPayload<{
         include: {

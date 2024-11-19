@@ -9,8 +9,8 @@ export class ProductsIndexService {
         this.productsRepository = productsRepository;
     }
 
-    async execute(ingredients?: string, productName?: string, limit: number = 5): Promise<Product[] | null> {
-        const products = await this.productsRepository.index(ingredients, productName, limit);
+    async execute(searchTerm?: string, limit: number = 30): Promise<Product[] | null> {
+        const products = await this.productsRepository.index(searchTerm, limit);
         
         if (!products) {
             throw new AppError({ message: "There's no products available", statusCode: 404 })

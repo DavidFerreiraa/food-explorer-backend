@@ -72,6 +72,7 @@ model Order {
 
   Owner   User   @relation(fields: [ownerId], references: [id])
   ownerId String
+  status OrderStatus?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -114,4 +115,10 @@ model Ingredients {
 enum Role {
   USER
   ADMIN
+}
+
+enum OrderStatus {
+  Pendente
+  Preparando
+  Entregue
 }
