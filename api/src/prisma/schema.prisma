@@ -119,6 +119,7 @@ enum Role {
 
 enum OrderStatus {
   Pendente
+  Pago
   Preparando
   Entregue
 }
