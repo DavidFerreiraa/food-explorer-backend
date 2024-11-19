@@ -14,6 +14,9 @@ export class OrdersRepository {
             where: {
                 ownerId
             },
+            orderBy: {
+                createdAt: 'desc'
+            },
             include: {
                 OrderProducts: {
                     include: {
