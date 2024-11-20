@@ -41,7 +41,7 @@ export async function authenticated(request: FastifyRequest, reply: FastifyReply
                     httpOnly: true,
                     sameSite: "none",
                     secure: true,
-                    maxAge: 15 * 60 * 1000 // 15 minutos
+                    maxAge: 30 * 60 * 1000 // 15 minutos
                 });
 
                 return;

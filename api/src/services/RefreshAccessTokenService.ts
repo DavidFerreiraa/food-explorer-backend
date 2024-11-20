@@ -12,6 +12,7 @@ export async function refreshAccessToken(refreshToken: string) {
 
         // Verifica se o usuário existe no banco de dados
         const user = await prisma.user.findUnique({ where: { id: user_id } });
+        
         if (!user) {
             throw new AppError({ message: "User not found", statusCode: 401 });
         }

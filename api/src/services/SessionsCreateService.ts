@@ -45,7 +45,7 @@ export class SessionsCreateService {
             expiresIn: refreshExpiresIn
         })
 
-        await this.userRepository.setRefreshToken(user.id, jwtToken);
+        await this.userRepository.setRefreshToken(user.id, refreshJwtToken);
 
         // @ts-ignore: the user received have a password, but the user shouldn't be able to see it.
         delete user.password;
