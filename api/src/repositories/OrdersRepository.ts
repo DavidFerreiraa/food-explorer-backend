@@ -9,6 +9,23 @@ export interface ICreateOrder {
 }
 
 export class OrdersRepository {
+    async indexAdmin(): Promise< Order[] | null> {
+        const orders = await prisma.order.findMany({
+            orderBy: {
+                createdAt: 'desc'
+            },
+            include: {
+                OrderProducts: {
+                    include: {
+                        Product: true
+                    }
+                }
+            }
+        });
+
+        return orders;
+    }
+    
     async index(ownerId: string): Promise< Order[] | null>{
         const orders = await prisma.order.findMany({
             where: {
