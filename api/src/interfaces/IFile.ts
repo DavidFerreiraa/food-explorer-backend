@@ -17,7 +17,7 @@ declare module 'fastify' {
             id: string,
             role: $Enums.Role
             },
-        }
+    }
 
     interface MyJwtPayload extends JwtPayload {
         role: $Enums.Role

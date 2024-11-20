@@ -4,16 +4,17 @@ import { OrderCreateService } from "../services/OrderCreateService";
 import { createOrderBody, createOrderId, createProductId } from "../../utils/ZodTemplates";
 import { OrderDeleteService } from "../services/OrderDeleteService";
 import { OrderShowService } from "../services/OrderShowService";
+import { OrderIndexService } from "../services/OrderIndexService";
 
 export class OrderController {
     orderRepository = new OrdersRepository();
 
     async index(request: FastifyRequest, reply: FastifyReply) {
-        const ownerId = request.user.id;
+        const orderIndexService = new OrderIndexService(this.orderRepository);
 
-        const userOrders = await this.orderRepository.index(ownerId);
+        const orders = await orderIndexService.execute(request);
 
-        return reply.status(200).send(userOrders);
+        return reply.status(200).send(orders);
     }
 
     async show(request: FastifyRequest, reply: FastifyReply) {
