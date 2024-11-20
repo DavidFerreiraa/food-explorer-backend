@@ -46,6 +46,10 @@ export const createOrderBody = z.object({
     quantity: z.number({required_error: "You forgot to insert the quantity"}).min(1, {message: "You forgot to insert the quantity"})
 });
 
+export const updateOrderStatusBody = z.object({
+    status: z.string().optional(),
+});
+
 export const createOrderId = z.object({
     orderId: z.string({required_error: "You forgot to insert the order id"}).min(1, {message: "You forgot to insert the order id"}),
 })

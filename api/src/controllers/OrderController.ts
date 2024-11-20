@@ -1,10 +1,11 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { OrdersRepository } from "../repositories/OrdersRepository";
 import { OrderCreateService } from "../services/OrderCreateService";
-import { createOrderBody, createOrderId, createProductId } from "../../utils/ZodTemplates";
+import { createOrderBody, createOrderId, createProductId, updateOrderStatusBody } from "../../utils/ZodTemplates";
 import { OrderDeleteService } from "../services/OrderDeleteService";
 import { OrderShowService } from "../services/OrderShowService";
 import { OrderIndexService } from "../services/OrderIndexService";
+import { OrderStatusUpdateService } from "../services/OrderStatusUpdateService";
 
 export class OrderController {
     orderRepository = new OrdersRepository();
@@ -36,6 +37,16 @@ export class OrderController {
         const orderCreated = await orderCreateService.execute({ totalPrice, quantity, productId, ownerId});
 
         return reply.status(201).send(orderCreated);
+    }
+
+    async updateStatus(request: FastifyRequest, reply: FastifyReply) {
+        const { orderId } = createOrderId.parse(request.params);
+        const { status } = updateOrderStatusBody.parse(request.body);
+
+        const orderStatusUpdateService = new OrderStatusUpdateService(this.orderRepository);
+        const orderUpdated = await orderStatusUpdateService.execute(orderId, status);
+
+        return reply.status(201).send(orderUpdated);
     }
 
     async delete(request: FastifyRequest, reply: FastifyReply) {

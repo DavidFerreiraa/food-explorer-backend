@@ -1,5 +1,6 @@
 import { Order, Product } from "@prisma/client";
 import { prisma } from "../lib/prisma";
+import { IOrderStatus } from "../interfaces/IOrder";
 
 export interface ICreateOrder {
     totalPrice: number,
@@ -25,7 +26,7 @@ export class OrdersRepository {
 
         return orders;
     }
-    
+
     async index(ownerId: string): Promise< Order[] | null>{
         const orders = await prisma.order.findMany({
             where: {
@@ -91,6 +92,19 @@ export class OrdersRepository {
                 }
             }
         }})
+
+        return order;
+    }
+
+    async updateStatus(id: string, status: IOrderStatus): Promise<Order | null> {
+        const order = await prisma.order.update({
+            where: {
+                id
+            },
+            data: {
+                status
+            }
+        })
 
         return order;
     }
