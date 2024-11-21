@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 3333 5555
 
 # Run Prisma migrations and start the application
-CMD ["sh", "-c", "npx prisma migrate --schema=./api/src/prisma/schema.prisma deploy && npm run dev"]
+CMD ["sh", "-c", "npx prisma migrate deploy --schema=./api/src/prisma/schema.prisma && npm run dev"]
