@@ -8,6 +8,8 @@ import cors from '@fastify/cors';
 import { routes } from './routes';
 import multer from 'fastify-multer';
 import { UPLOADS_FOLDER } from './config/upload';
+import swagger from '@fastify/swagger'
+import swaggerUi from '@fastify/swagger-ui'
 
 const fastify = Fastify({
     logger: true,
@@ -54,6 +56,18 @@ export async function start() {
             })
         }
     });
+
+    await fastify.register(swagger);
+
+    await fastify.register(swaggerUi, {
+        routePrefix: '/documentation',
+        uiConfig: {
+          docExpansion: 'full',
+          deepLinking: false
+        },
+        staticCSP: true,
+        transformSpecificationClone: true
+    })
     
     await fastify.register(routes);
 

@@ -46,7 +46,7 @@ export class FavoritesController {
         const { id } = request.user;
 
         const favoriteDeleteService = new FavoriteDeleteService(this.favoriteRepository);
-        favoriteDeleteService.execute(favoriteId, id).catch((error) => console.log(error));
+        favoriteDeleteService.execute(favoriteId, id);
 
         return reply.status(200).send({
             type: "success",
