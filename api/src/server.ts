@@ -67,7 +67,7 @@ export async function start() {
             },
             servers: [
                 {
-                    url: 'https://food-explorer-frontend-tau.vercel.app:3333', // Base URL for the API
+                    url: 'https://food-explorer-frontend-tau.vercel.app', // Base URL for the API
                     description: 'Production server',
                 }
               ],
