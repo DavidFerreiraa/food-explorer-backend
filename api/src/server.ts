@@ -27,7 +27,6 @@ export async function start() {
         credentials: true,
         origin: [
             "https://food-explorer-frontend-tau.vercel.app:3333", //prod website
-            "http://localhost:5174"
         ]
     })
 
@@ -67,10 +66,6 @@ export async function start() {
                 version: '0.1.0',
             },
             servers: [
-                {
-                    url: 'http://localhost:3333', // Base URL for the API
-                    description: 'Development server',
-                },
                 {
                     url: 'https://food-explorer-frontend-tau.vercel.app:3333', // Base URL for the API
                     description: 'Production server',
