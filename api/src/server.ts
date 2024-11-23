@@ -26,7 +26,7 @@ export async function start() {
     await fastify.register(cors, {
         credentials: true,
         origin: [
-            "https://food-explorer-frontend-tau.vercel.app:3333", //prod website
+            "https://food-explorer-frontend-tau.vercel.app", //prod website
         ]
     })
 
