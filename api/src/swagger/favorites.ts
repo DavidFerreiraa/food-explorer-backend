@@ -19,7 +19,7 @@ export const postFavoritesCreate = {
           properties: {
             id: { type: 'string', description: 'The unique ID of the created favorite' },
             userId: { type: 'string', description: 'The ID of the user who added the product to favorites' },
-            productId: { type: 'string', description: 'The ID of the product added to favorites' }
+            Product: { type: 'array', description: 'The list of all favorite products from this user' }
           }
         },
         500: {
@@ -55,7 +55,7 @@ export const postFavoritesCreate = {
             properties: {
               id: { type: 'string', description: 'The unique ID of the favorite' },
               userId: { type: 'string', description: 'The ID of the user who has the favorite' },
-              productId: { type: 'string', description: 'The ID of the favorite product' }
+              Product: { type: 'array', description: 'The list of all favorite products from this user' }
             }
           }
         },
@@ -99,7 +99,7 @@ export const getFavoritesShow = {
           properties: {
             id: { type: 'string', description: 'The unique ID of the favorite' },
             userId: { type: 'string', description: 'The ID of the user who has the favorite' },
-            productId: { type: 'string', description: 'The ID of the favorite product' }
+            Product: { type: 'array', description: 'The list of all favorite products from this user' }
           }
         },
         400: {
@@ -144,7 +144,14 @@ export const deleteFavorite = {
         }
       },
       response: {
-        204: {},
+        204: {
+          description: 'Successfully deleted the order',
+          type: 'object',
+          properties: {
+            message: { type: 'string', description: 'Success message' },
+            statusCode: { type: 'integer', description: 'HTTP status code' }
+          }
+        },
         400: {
           description: 'Bad request (favorite does not exist)',
           type: 'object',

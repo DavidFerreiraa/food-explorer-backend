@@ -26,7 +26,7 @@ export class ProductsController {
 
         const productsShowService = new ProductsShowService(this.productsRepository);
         const product = await productsShowService.execute(productId);
-        
+        console.log(product)
         return reply.status(200).send(product);
     }
 

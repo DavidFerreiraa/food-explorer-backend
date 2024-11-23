@@ -16,6 +16,8 @@ const fastify = Fastify({
     trustProxy: true
 })
 
+fastify.register(multer.contentParser);
+
 export async function start() {
     await fastify.register(fastifyCookie, {
         secret: process.env.SECRET_JWT,
@@ -24,7 +26,8 @@ export async function start() {
     await fastify.register(cors, {
         credentials: true,
         origin: [
-            "https://food-explorer-frontend-tau.vercel.app", //prod website
+            "https://food-explorer-frontend-tau.vercel.app:3333", //prod website
+            "http://localhost:5174"
         ]
     })
 
@@ -32,8 +35,6 @@ export async function start() {
     fastify.register(fastifyStatic, {
         root: UPLOADS_FOLDER
     });
-    
-    fastify.register(multer.contentParser);
     
     fastify.setErrorHandler((error, request, reply) => {
         if (error instanceof AppError) {
@@ -57,10 +58,29 @@ export async function start() {
         }
     });
 
-    await fastify.register(swagger);
+    await fastify.register(swagger, {
+        mode: 'dynamic',
+        openapi: {
+            info: {
+                title: 'Food explorer API Documentation',
+                description: 'API description',
+                version: '0.1.0',
+            },
+            servers: [
+                {
+                    url: 'http://localhost:3333', // Base URL for the API
+                    description: 'Development server',
+                },
+                {
+                    url: 'https://food-explorer-frontend-tau.vercel.app:3333', // Base URL for the API
+                    description: 'Production server',
+                }
+              ],
+        },
+    });
 
     await fastify.register(swaggerUi, {
-        routePrefix: '/documentation',
+        routePrefix: '/docs',
         uiConfig: {
           docExpansion: 'full',
           deepLinking: false
@@ -68,8 +88,8 @@ export async function start() {
         staticCSP: true,
         transformSpecificationClone: true
     })
-    
-    await fastify.register(routes);
+
+    fastify.register(routes);
 
     await fastify.listen({port: 3333, host: '0.0.0.0'})
 }

@@ -3,61 +3,33 @@ export const postProductsCreate = {
       description: 'Create a new product with image and details',
       tags: ['products'],
       summary: 'Create a new product by uploading an image and providing product details',
+      consumes: ['multipart/form-data'], // Specify the content type
       body: {
         type: 'object',
         properties: {
-          title: {
+          json: {
             type: 'string',
-            description: 'The title of the product'
+            description: 'JSON string with product details',
           },
-          description: {
-            type: 'string',
-            description: 'The description of the product'
-          },
-          price: {
-            type: 'number',
-            format: 'float',
-            description: 'The price of the product'
-          },
-          ingredients: {
-            type: 'array',
-            items: { type: 'string' },
-            description: 'A list of ingredients for the product'
-          },
-          creatorId: {
-            type: 'string',
-            description: 'The ID of the user who is creating the product'
-          },
-          imageFile: {
+          file: {
             type: 'string',
             format: 'binary',
-            description: 'The image file for the product'
+            description: 'Optional product image file',
           },
-          categoryId: {
-            type: 'string',
-            description: 'The ID of the category for the product'
-          }
-        }
+        },
+        required: ['json'], // Explicitly mark fields as required
       },
-      consumes: ['multipart/form-data'],
       response: {
         201: {
           description: 'Product successfully created',
           type: 'object',
           properties: {
-            id: { type: 'string', description: 'The unique ID of the created product' },
-            title: { type: 'string', description: 'The title of the product' },
-            description: { type: 'string', description: 'The description of the product' },
-            price: { type: 'number', format: 'float', description: 'The price of the product' },
-            ingredients: {
-              type: 'array',
-              items: { type: 'string' },
-              description: 'A list of ingredients for the product'
-            },
-            creatorId: { type: 'string', description: 'The ID of the user who created the product' },
-            imageUrl: { type: 'string', description: 'The URL of the uploaded image' },
-            categoryId: { type: 'string', description: 'The ID of the category for the product' }
-          }
+            id: { type: 'string', description: 'The unique ID of the product' },
+            title: { type: 'string', description: 'Title of the product' },
+            description: { type: 'string', description: 'Description of the product' },
+            price: { type: 'number', format: 'float', description: 'Price of the product' },
+            imageUrl: { type: 'string', description: 'URL of the product image' },
+          },
         },
         400: {
           description: 'Bad request (missing or invalid image)',
@@ -105,10 +77,11 @@ export const deleteProduct = {
       },
       response: {
         200: {
-          description: 'Product successfully deleted',
+          description: 'Successfully deleted the order',
           type: 'object',
           properties: {
-            message: { type: 'string', description: 'Confirmation message' }
+            message: { type: 'string', description: 'Success message' },
+            statusCode: { type: 'integer', description: 'HTTP status code' }
           }
         },
         404: {
@@ -153,34 +126,29 @@ export const uploadProductImage = {
           }
         }
       },
+      consumes: ['multipart/form-data'], // Specify the content type
       body: {
         type: 'object',
-        required: ['imageFile'],
         properties: {
-          imageFile: {
+          file: {
             type: 'string',
             format: 'binary',
-            description: 'The image file to be uploaded for the product'
-          }
-        }
+            description: 'Optional product image file',
+          },
+        },
+        required: ['json'], // Explicitly mark fields as required
       },
       response: {
         200: {
           description: 'Product image successfully updated',
           type: 'object',
           properties: {
-            message: { type: 'string', description: 'Confirmation message' },
-            updatedProduct: {
-              type: 'object',
-              properties: {
-                id: { type: 'string', description: 'The unique ID of the updated product' },
-                title: { type: 'string', description: 'Title of the product' },
-                description: { type: 'string', description: 'Description of the product' },
-                price: { type: 'number', format: 'float', description: 'Price of the product' },
-                imageUrl: { type: 'string', description: 'Updated image URL of the product' }
-              }
-            }
-          }
+            id: { type: 'string', description: 'The unique ID of the product' },
+            title: { type: 'string', description: 'Title of the product' },
+            description: { type: 'string', description: 'Description of the product' },
+            price: { type: 'number', format: 'float', description: 'Price of the product' },
+            imageUrl: { type: 'string', description: 'URL of the product image' },
+          },
         },
         400: {
           description: 'Bad request (image is missing or invalid)',
@@ -232,15 +200,14 @@ export const getProducts = {
         200: {
           description: 'List of products successfully retrieved',
           type: 'array',
-          items: {
-            type: 'object',
+          Products: {
+            type: 'array',
             properties: {
               id: { type: 'string', description: 'The unique ID of the product' },
               title: { type: 'string', description: 'Title of the product' },
               description: { type: 'string', description: 'Description of the product' },
               price: { type: 'number', format: 'float', description: 'Price of the product' },
               imageUrl: { type: 'string', description: 'URL of the product image' },
-              ingredients: { type: 'array', items: { type: 'string' }, description: 'List of ingredients for the product' },
             },
           },
         },
@@ -288,7 +255,31 @@ export const getProductById = {
             description: { type: 'string', description: 'Description of the product' },
             price: { type: 'number', format: 'float', description: 'Price of the product' },
             imageUrl: { type: 'string', description: 'URL of the product image' },
-            ingredients: { type: 'array', items: { type: 'string' }, description: 'List of ingredients for the product' },
+            Ingredients: { 
+              type: 'array', 
+              ingredients: { 
+                type: 'object', 
+                properties: {
+                  id: { type: 'string', description: 'The unique ID of the ingredient' },
+                  name: { type: 'string', description: 'Name of the ingredient' },
+                  productId: { type: 'string', description: 'The unique ID of the product related to this ingredient' },
+                } 
+              },
+              description: 'List of ingredients for the product' 
+            },
+            Categories: {
+              type: 'array',
+              categories: {
+                type: 'object',
+                properties: {
+                  productId: { type: 'string', description: 'The unique ID of the propduct related' },
+                  categoryId: { type: 'string', description: 'The unique ID of the propduct related' },
+                  createdAt: { type: 'date-time', description: 'The creation date of the relation' },
+                  updatedAt: { type: 'date-time', description: 'The updation date of the relation' },
+                }
+              },
+              description: 'List of categories related to the product'
+            }
           },
         },
         404: {
@@ -324,20 +315,24 @@ export const putProductUpdate = {
           },
         },
       },
+      consumes: ['multipart/form-data'], // Specify the content type
       body: {
         type: 'object',
         properties: {
-          id: { type: 'string', description: 'The unique ID of the product to update (required)' },
-          title: { type: 'string', description: 'Title of the product' },
-          description: { type: 'string', description: 'Description of the product' },
-          price: { type: 'number', format: 'float', description: 'Price of the product' },
-          ingredients: { type: 'array', items: { type: 'string' }, description: 'List of ingredients for the product' },
-          imageFile: { type: 'string', format: 'binary', description: 'New image for the product (optional)' },
-          creatorId: { type: 'string', description: 'ID of the creator' },
+          json: {
+            type: 'string',
+            description: 'JSON string with product details',
+          },
+          file: {
+            type: 'string',
+            format: 'binary',
+            description: 'Optional product image file',
+          },
         },
+        required: ['json'], // Explicitly mark fields as required
       },
       response: {
-        200: {
+        201: {
           description: 'Product successfully updated',
           type: 'object',
           properties: {

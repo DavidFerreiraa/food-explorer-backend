@@ -14,7 +14,7 @@ export const postOrdersCreate = {
       },
       body: {
         type: 'object',
-        required: ['totalPrice', 'quantity', 'ownerId'],
+        required: ['totalPrice', 'quantity'],
         properties: {
           totalPrice: {
             type: 'number',
@@ -25,10 +25,6 @@ export const postOrdersCreate = {
             type: 'integer',
             description: 'The quantity of the product in the order'
           },
-          ownerId: {
-            type: 'string',
-            description: 'The ID of the user placing the order'
-          }
         }
       },
       response: {
@@ -40,7 +36,10 @@ export const postOrdersCreate = {
             totalPrice: { type: 'number', format: 'float', description: 'Total price of the order' },
             quantity: { type: 'integer', description: 'Quantity of the product ordered' },
             ownerId: { type: 'string', description: 'The ID of the user who placed the order' },
-            productId: { type: 'string', description: 'The ID of the product in the order' }
+            productId: { type: 'string', description: 'The ID of the product in the order' },
+            OrderProducts: { type: 'array', description: 'The array of products relateds with this order'},
+            createdAt: { type: 'string', format: 'date-time', description: 'The creation date of the relation' },
+            updatedAt: { type: 'string', format: 'date-time', description: 'The updation date of the relation' }
           }
         },
         400: {
@@ -105,7 +104,10 @@ export const patchOrderUpdateStatus = {
             totalPrice: { type: 'number', format: 'float', description: 'The total price of the order' },
             quantity: { type: 'integer', description: 'Quantity of the product ordered' },
             ownerId: { type: 'string', description: 'The ID of the user who placed the order' },
-            productId: { type: 'string', description: 'The ID of the product in the order' }
+            productId: { type: 'string', description: 'The ID of the product in the order' },
+            OrderProducts: { type: 'array', description: 'The array of products relateds with this order'},
+            createdAt: { type: 'string', format: 'date-time', description: 'The creation date of the relation' },
+            updatedAt: { type: 'string', format: 'date-time', description: 'The updation date of the relation' }
           }
         },
         400: {
@@ -152,7 +154,10 @@ export const getOrdersIndex = {
               totalPrice: { type: 'number', format: 'float', description: 'The total price of the order' },
               quantity: { type: 'integer', description: 'Quantity of the product ordered' },
               ownerId: { type: 'string', description: 'The ID of the user who placed the order' },
-              productId: { type: 'string', description: 'The ID of the product in the order' }
+              productId: { type: 'string', description: 'The ID of the product in the order' },
+              OrderProducts: { type: 'array', description: 'The array of products relateds with this order'},
+              createdAt: { type: 'string', format: 'date-time', description: 'The creation date of the relation' },
+              updatedAt: { type: 'string', format: 'date-time', description: 'The updation date of the relation' }
             }
           }
         },
@@ -207,7 +212,10 @@ export const getOrdersShow = {
             totalPrice: { type: 'number', format: 'float', description: 'The total price of the order' },
             quantity: { type: 'integer', description: 'Quantity of the product ordered' },
             ownerId: { type: 'string', description: 'The ID of the user who placed the order' },
-            productId: { type: 'string', description: 'The ID of the product in the order' }
+            productId: { type: 'string', description: 'The ID of the product in the order' },
+            OrderProducts: { type: 'array', description: 'The array of products relateds with this order'},
+            createdAt: { type: 'string', format: 'date-time', description: 'The creation date of the relation' },
+            updatedAt: { type: 'string', format: 'date-time', description: 'The updation date of the relation' }
           }
         },
         404: {

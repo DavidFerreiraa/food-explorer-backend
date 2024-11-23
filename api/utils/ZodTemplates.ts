@@ -14,7 +14,11 @@ export const createSessionBody = z.object({
 export const createProductBody = z.object({
     title: z.string({required_error: "You forgot to insert a title"}).min(1, {message: "You forgot to insert a title"}),
     description: z.string({required_error: "You forgot to insert a description"}).min(1, {message: "You forgot to insert a description"}),
-    price: z.string({required_error: "You forgot to insert a price"}).min(1, {message: "You forgot to insert a price"}),
+    price: z.union([
+        z.string().min(1, { message: "You forgot to insert a price" }),
+        z.number().min(1, { message: "You forgot to insert a price" }),
+      ])
+      .transform(val => String(val)),
     categoryId: z.string({required_error: "You forgot to insert a category id"}).min(1, {message: "You forgot to insert a category id"}),
     ingredients: z.array<z.ZodString>(z.string(), {required_error: "Insert at least one ingredient"}).min(1, {message: "Insert at least one ingredient"})
 })

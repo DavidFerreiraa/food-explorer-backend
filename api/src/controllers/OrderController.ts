@@ -14,7 +14,7 @@ export class OrderController {
         const orderIndexService = new OrderIndexService(this.orderRepository);
 
         const orders = await orderIndexService.execute(request);
-
+        console.log(orders)
         return reply.status(200).send(orders);
     }
 

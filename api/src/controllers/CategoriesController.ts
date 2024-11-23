@@ -11,7 +11,7 @@ export class CategoriesController {
         const categoryIndexService = new CategoryIndexService(this.categoriesRepository);
 
         const categories = await categoryIndexService.execute()
-
+        
         return reply.status(200).send(categories);
     }
 

@@ -19,7 +19,7 @@ export const postCategoriesCreate = {
           type: 'object',
           properties: {
             id: { type: 'string', description: 'The unique ID of the created category' },
-            name: { type: 'string', description: 'The name of the created category' }
+            name: { type: 'string', description: 'The name of the created category' },
           }
         },
         401: {
@@ -62,7 +62,8 @@ export const getCategoriesIndex = {
             type: 'object',
             properties: {
               id: { type: 'string', description: 'The unique ID of the category' },
-              name: { type: 'string', description: 'The name of the category' }
+              name: { type: 'string', description: 'The name of the category' },
+              Products: { type: 'array', description: 'An array of the products that\'s in this category' }
             }
           }
         },
