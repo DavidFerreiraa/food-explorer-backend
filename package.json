@@ -11,11 +11,12 @@
     "dev": "tsx watch api/src/server.ts",
     "prisma-generate": "prisma generate --schema=./api/src/prisma/schema.prisma",
     "generate-prisma-erd": "prisma-erd-generator --schema=./api/src/prisma/schema.prisma --output=/tmp/prisma-erd-GNxh3G/prisma.mmd",
-    "prisma-migrate": "prisma migrate dev --schema=api/src/prisma/schema.prisma",
-    "prisma-studio": "prisma studio --schema=api/src/prisma/schema.prisma -n 0.0.0.0 -p 5555"
+    "prisma-migrate": "prisma migrate dev --schema=./api/src/prisma/schema.prisma",
+    "prisma-studio": "prisma studio --schema=./api/src/prisma/schema.prisma -n 0.0.0.0 -p 5555",
+    "prisma-category": "tsx api/src/prisma/category.ts"
   },
   "prisma": {
-    "seed": "tsx api/src/prisma/seed.ts"
+    "seed": ""
   },
   "keywords": [],
   "author": "",
