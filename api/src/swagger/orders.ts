@@ -71,9 +71,9 @@ export const postOrdersCreate = {
 
 export const patchOrderUpdateStatus = {
     schema: {
-      description: 'Update the status of an existing order',
+      description: 'Update the status of an existing order (admin only)',
       tags: ['orders'],
-      summary: 'Update the status of an order by its ID',
+      summary: 'Update the status of an order by its ID (admin only)',
       params: {
         type: 'object',
         properties: {

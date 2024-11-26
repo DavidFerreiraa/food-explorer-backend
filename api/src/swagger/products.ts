@@ -1,8 +1,8 @@
 export const postProductsCreate = {
     schema: {
-      description: 'Create a new product with image and details',
+      description: 'Create a new product with image and details (admin only)',
       tags: ['products'],
-      summary: 'Create a new product by uploading an image and providing product details',
+      summary: 'Create a new product by uploading an image and providing product details (admin only)',
       consumes: ['multipart/form-data'], // Specify the content type
       body: {
         type: 'object',
@@ -52,9 +52,9 @@ export const postProductsCreate = {
 
 export const deleteProduct = {
     schema: {
-      description: 'Delete a product by its ID',
+      description: 'Delete a product by its ID (admin only)',
       tags: ['products'],
-      summary: 'Deletes the specified product and its associated image',
+      summary: 'Deletes the specified product and its associated image (admin only)',
       params: {
         type: 'object',
         required: ['productId'],
@@ -113,9 +113,9 @@ export const deleteProduct = {
 
 export const uploadProductImage = {
     schema: {
-      description: 'Upload a new image for a product',
+      description: 'Upload a new image for a product (admin only)',
       tags: ['products'],
-      summary: 'Upload and update the image of the specified product',
+      summary: 'Upload and update the image of the specified product (admin only)',
       params: {
         type: 'object',
         required: ['productId'],
@@ -303,9 +303,9 @@ export const getProductById = {
 
 export const putProductUpdate = {
     schema: {
-      description: 'Update an existing product by its ID',
+      description: 'Update an existing product by its ID (admin only)',
       tags: ['products'],
-      summary: 'Update the details of an existing product',
+      summary: 'Update the details of an existing product (admin only)',
       params: {
         type: 'object',
         properties: {
